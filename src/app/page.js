@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 const verifyUser = async () => {
     try {
         const { error } = await axios.get(`/api/auth/verify`);
-        console.log(error);
+        // console.log(error);
         if (error) return false;
     } catch (error) {
         return false;

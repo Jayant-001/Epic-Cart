@@ -47,6 +47,7 @@ const ProductDetails = ({ product }) => {
     if (product === null) {
         return <h1>Product not found</h1>;
     }
+    
     return (
         <section className="text-gray-700 body-font overflow-hidden bg-white">
             <div className="container px-5 py-24 mx-auto">

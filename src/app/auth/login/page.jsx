@@ -24,6 +24,7 @@ const LoginPage = () => {
 
         const { data, error } = await axios.post(`/api/auth/login`, user);
 
+        console.log(data)
         if (data) {
             setUser({ email: "", password: "" });
             toast.success("Welcome again", { duration: 3000 });

@@ -1,5 +1,8 @@
+import { connectDB } from "@/config/db";
 import { extractToken } from "@/helper/extractToken";
 import { NextResponse } from "next/server";
+
+connectDB();
 
 export async function GET(req) {
     try {

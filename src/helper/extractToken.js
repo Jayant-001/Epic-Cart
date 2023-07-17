@@ -6,6 +6,7 @@ export const extractToken = async (req) => {
         const decodedData = jwt.verify(token, process.env.JWT_SECRET);
         return decodedData.id;
     } catch (err) {
+        // console.log(err)
         return null
     }
 };

@@ -55,7 +55,7 @@ const Header = () => {
                                 >
                                     <Link
                                         onClick={() =>
-                                            setMenuState(!setMenuState)
+                                            setMenuState(!menuState)
                                         }
                                         href={item.path}
                                     >
@@ -162,7 +162,7 @@ const ProfileDropDown = (props) => {
             toast.error("Something went wrong");
             return;
         }
-        setMenuState(!menuState);
+        props.setMenuState(!props.menuState);
         toast.success("Logout successful");
         router.push("/auth/login");
     };

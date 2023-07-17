@@ -6,15 +6,16 @@ import { NextResponse } from "next/server";
 connectDB();
 
 export async function GET(req) {
+
     try {
         const userId = await extractToken(req);
 
-        const products = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId });
 
         return NextResponse.json(
             {
                 success: true,
-                products,
+                cart,
             },
             { status: 200 }
         );
@@ -99,14 +100,27 @@ export async function POST(req) {
 
 export async function DELETE(req) {
     const userId = await extractToken(req);
-    const { productId } = await req.json();
+    const productId  = await req.json();
+
+    console.log(userId)
+        console.log(productId);
+
+        return NextResponse.json(
+            {
+                message: "Cart updated.",
+            },
+            { status: 201 }
+        );
 
     try {
         // Find the cart for the user
         const cart = await Cart.findOne({ userId });
 
         if (!cart) {
-            return res.status(404).json({ error: "Cart not found" });
+            return NextResponse.json(
+                { message: "Cart not found" },
+                { status: 404 }
+            );
         }
 
         // Find the index of the product in the products array
@@ -115,9 +129,10 @@ export async function DELETE(req) {
         );
 
         if (productIndex === -1) {
-            return res
-                .status(404)
-                .json({ error: "Product not found in the cart" });
+            return NextResponse.json(
+                { message: "Product not found in the cart" },
+                { status: 404 }
+            );
         }
 
         // Get the product details before removing it
@@ -133,10 +148,18 @@ export async function DELETE(req) {
         // Save the updated cart
         await cart.save();
 
-        res.status(200).json({ message: "Cart product deleted successfully" });
+        return NextResponse.json(
+            { message: "Cart product deleted successfully" },
+            { status: 200 }
+        );
     } catch (err) {
-        res.status(500).json({
-            error: "An error occurred while deleting cart product",
-        });
+        console.log(err);
+        return NextResponse.json(
+            {
+                success: false,
+                message: err.message,
+            },
+            { status: 500 }
+        );
     }
 }
