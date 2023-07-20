@@ -1,6 +1,9 @@
-"use client";
+// "use client";
 
-import React, { useState } from "react";
+import Link from "next/link";
+import { AiFillGithub } from "react-icons/ai";
+
+// import React, { useState } from "react";
 
 const HeroSection = () => {
     const features = [
@@ -22,7 +25,7 @@ const HeroSection = () => {
             ),
         },
         {
-            name: "150+ products",
+            name: "NoBrokerage",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +60,7 @@ const HeroSection = () => {
         },
     ];
 
-    const [isVideoPoppedUp, setVideoPopUp] = useState(false);
+    // const [isVideoPoppedUp, setVideoPopUp] = useState(false);
     return (
         <section>
             <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 md:px-8 xl:flex">
@@ -74,20 +77,20 @@ const HeroSection = () => {
                         ))}
                     </div>
                     <h1 className="text-4xl text-gray-800 font-extrabold mx-auto md:text-5xl">
-                        Products in-demand careers and develop cutting edge
-                        skills
+                        An online rental store build with everything new in
+                        Next.js 13
                     </h1>
                     <p className="max-w-xl mx-auto xl:mx-0">
-                        Sed ut perspiciatis unde omnis iste natus voluptatem
-                        accusantium doloremque laudantium, totam rem aperiam,
-                        eaque ipsa quae.
+                        Buy and sell your home products around the world with 0
+                        brokerage fee.
                     </p>
+
                     <div className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0 xl:justify-start">
-                        <a
-                            href="/"
+                        <Link
+                            href="/products"
                             className="flex items-center justify-center gap-x-2 py-2 px-4 text-white font-medium bg-gray-800 duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-lg md:inline-flex"
                         >
-                            Browse courses
+                            Buy now
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
@@ -100,12 +103,12 @@ const HeroSection = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                        </a>
-                        <a
-                            href="/"
+                        </Link>
+                        <Link
+                            href="/sell"
                             className="flex items-center justify-center gap-x-2 py-2 px-4 text-gray-700 hover:text-gray-500 font-medium duration-150 active:bg-gray-100 border rounded-lg md:inline-flex"
                         >
-                            Get access
+                            Sell now
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
@@ -118,10 +121,18 @@ const HeroSection = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                        </a>
+                        </Link>
                     </div>
+                    <a
+                        href="https://github.com/Jayant-001/Epic-Cart"
+                        target="_blank"
+                        className="flex items-center justify-center gap-x-2 py-2 px-4 text-gray-700 hover:text-gray-500 font-medium duration-150 active:bg-gray-100 border rounded-lg md:inline-flex"
+                    >
+                        Github
+                        <AiFillGithub />
+                    </a>
                 </div>
-                <div className="flex-1 max-w-xl mx-auto mt-14 xl:mt-0">
+                {/* <div className="flex-1 max-w-xl mx-auto mt-14 xl:mt-0">
                     <div className="relative">
                         <img
                             src="https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
@@ -142,9 +153,9 @@ const HeroSection = () => {
                             </svg>
                         </button>
                     </div>
-                </div>
+                </div> */}
             </div>
-            {isVideoPoppedUp ? (
+            {/* {isVideoPoppedUp ? (
                 <div className="fixed inset-0 w-full h-full flex items-center justify-center">
                     <div
                         className="absolute inset-0 w-full h-full bg-black/50"
@@ -178,7 +189,7 @@ const HeroSection = () => {
                 </div>
             ) : (
                 ""
-            )}
+            )} */}
         </section>
     );
 };

@@ -12,9 +12,9 @@ const Header = () => {
 
     const navigation = [
         { title: "Products", path: "/products" },
-        { title: "Men", path: "/products/men" },
-        { title: "Women", path: "/products/women" },
-        { title: "Electronics", path: "/products/electronics" },
+        { title: "Men", path: "/products?category=men" },
+        { title: "Women", path: "/products?category=women" },
+        { title: "Electronics", path: "/products?category=electronics" },
     ];
 
     const keyDownHandler = (event) => {

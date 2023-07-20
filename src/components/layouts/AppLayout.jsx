@@ -13,7 +13,7 @@ const AppLayout = ({ children }) => {
             <div className="flex flex-col min-h-screen mx-auto">
                 <Toaster />
                 <Header />
-                <main className=" max-w-[95%] md:max-w-[90%] my-2 flex-grow mx-auto w-full">
+                <main className="max-w-[95%] md:max-w-[90%] my-2 flex-grow mx-auto w-full">
                     {children}
                 </main>
                 <Footer />

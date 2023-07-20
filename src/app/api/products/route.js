@@ -1,12 +1,28 @@
 import { connectDB } from "@/config/db";
 import Product from "@/models/Product";
 import { NextResponse } from "next/server";
+import { parse } from "url";
 
 connectDB();
 
-export async function GET() {
+export async function GET(req) {
     try {
-        const products = await Product.find();
+        const { query } = parse(req.url, true);
+        const { category, limit } = query;
+        let products;
+        if (
+            category !== null &&
+            category !== undefined &&
+            category !== "undefined"
+        )
+            products = await Product.find({ category: category });
+        else products = await Product.find();
+
+        // console.log(category)
+        if (!isNaN(limit)) {
+            // console.log(limit)
+            products = products.slice(0, limit);
+        }
 
         return NextResponse.json(
             {
@@ -29,7 +45,7 @@ export async function GET() {
 
 export async function POST(req) {
     try {
-        const { name, description, price, stock, seller, images } =
+        const { name, description, price, stock, seller, images, category } =
             await req.json();
 
         const toAddProduct = {
@@ -39,6 +55,7 @@ export async function POST(req) {
             stock,
             seller,
             images,
+            category,
         };
 
         let product = await Product(toAddProduct);

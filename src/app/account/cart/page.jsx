@@ -3,7 +3,6 @@
 import CartList from "@/components/cart/CartList";
 import CartDetails from "@/components/cart/CartDetails";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 const CartPage = () => {

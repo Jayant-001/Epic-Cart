@@ -15,27 +15,17 @@ const ProductDetails = ({ product }) => {
     const imageurl =
         "https://www.whitmorerarebooks.com/pictures/medium/2465.jpg";
 
-    const [cartProduct, setCartProduct] = useState({
-        id: product?._id,
-        name: product?.name,
-        quantity: 1,
-        price: product?.price,
-    });
-
     const addToCart = async (e) => {
         e.preventDefault();
-        if (cartProduct.quantity < 1) {
-            toast.error("Quantity must be positive");
-            return;
-        }
 
         const { data, error } = await axios.post("/api/account/cart", {
-            product: cartProduct,
+            id: product?._id,
+            name: product?.name,
+            quantity: 1,
+            price: product?.price,
         });
-        console.log(cartProduct);
 
-        if (error) throw new Error("Could not add product to cart");
-        console.log(data);
+        if (error || !data) throw new Error("Could not add product to cart");
         toast.success(`${product.name} added to cart`);
     };
 
@@ -47,7 +37,7 @@ const ProductDetails = ({ product }) => {
     if (product === null) {
         return <h1>Product not found</h1>;
     }
-    
+
     return (
         <section className="text-gray-700 body-font overflow-hidden bg-white">
             <div className="container px-5 py-24 mx-auto">
@@ -180,7 +170,7 @@ const ProductDetails = ({ product }) => {
                                 <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
                                 <button className="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
                             </div>
-                            <div className="flex ml-6 items-center">
+                            {/* <div className="flex ml-6 items-center">
                                 <span className="mr-3">Quantity</span>
                                 <div className="flex space-x-1">
                                     <input
@@ -225,7 +215,7 @@ const ProductDetails = ({ product }) => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex">
                             <span className="title-font font-medium text-2xl text-gray-900">

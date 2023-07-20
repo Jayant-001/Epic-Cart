@@ -34,7 +34,7 @@ export async function GET(req) {
 export async function POST(req) {
     try {
         const userId = await extractToken(req);
-        const { product } = await req.json();
+        const product = await req.json();
         const { id, name } = product;
         const price = parseInt(product.price);
         const quantity = parseInt(product.quantity);
@@ -60,6 +60,16 @@ export async function POST(req) {
         );
 
         if (existingProduct) {
+
+            // return if product already exist
+            return NextResponse.json(
+                {
+                    message: "Cart updated.",
+                    cart,
+                },
+                { status: 201 }
+            );
+
             // If the product already exists, update its quantity, total price, and the cart's total price
             existingProduct.quantity += quantity;
             existingProduct.totalPrice += quantity * price;
@@ -98,21 +108,21 @@ export async function POST(req) {
     }
 }
 
-export async function DELETE(req) {
-    const userId = await extractToken(req);
-    const productId  = await req.json();
-
-    console.log(userId)
-        console.log(productId);
-
-        return NextResponse.json(
-            {
-                message: "Cart updated.",
-            },
-            { status: 201 }
-        );
-
+export async function PATCH(req) {
     try {
+    const userId = await extractToken(req);
+    const {productId} = await req.json();
+
+    // console.log(userId)
+    //     console.log(productId);
+
+        // return NextResponse.json(
+        //     {
+        //         message: "Cart updated.",
+        //     },
+        //     { status: 201 }
+        // );
+
         // Find the cart for the user
         const cart = await Cart.findOne({ userId });
 

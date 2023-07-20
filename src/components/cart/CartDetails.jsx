@@ -1,4 +1,3 @@
-import { useGet } from "@/custom_hooks/use_fetch";
 import React from "react";
 import { toast } from "react-hot-toast";
 

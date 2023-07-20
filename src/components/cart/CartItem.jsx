@@ -2,26 +2,24 @@
 
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { FiXCircle } from "react-icons/fi";
-import Router from "next/router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const CartItem = ({ product }) => {
     const queryClient = useQueryClient();
+    const [quantity, setQuantity] = useState(product.quantity);
 
     const demoImageUrl =
         "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg";
     const imageurl =
         "https://www.whitmorerarebooks.com/pictures/medium/2465.jpg";
 
-    const router = useRouter();
-
-    const removeProduct = useMutation({
-        mutationFn: async () => {
-            const { data } = axios.delete("/api/account/cart", {
-                data: { productId: product.id },
-            });
+    const removeProductQuery = useMutation({
+        mutationFn: async (productId) => {
+            const {data} = await axios.patch("/api/account/cart", { productId });
             return data;
         },
         onSuccess: () => {
@@ -39,14 +37,7 @@ const CartItem = ({ product }) => {
     };
 
     const removeCartProduct = async () => {
-        // const { data, error } = await axios.delete("/api/account/cart", {
-        //     data: { productId: product.id },
-        // });
-        // router.replace('/account/cart');
-        // Router.reload(window.location.pathname);
-        // router.refresh();
-        // console.log(data);
-        // console.log(error);
+        removeProductQuery.mutate(product.id);
     };
 
     return (
@@ -61,9 +52,38 @@ const CartItem = ({ product }) => {
             />
             <div className="">
                 <h1>{product.name}</h1>
-                <p>Quantity: {product.quantity}</p>
                 <p>Price per unit: {product.price}</p>
                 <p>Total: {product.totalPrice}</p>
+                <div className="flex items-center">
+                    <span className="mr-3">Quantity</span>
+                    <div className="flex space-x-1">
+                        <input
+                            type="number"
+                            value={quantity}
+                            onChange={(e) => {
+                                setQuantity(e.target.value);
+                            }}
+                            className=" w-16 text-center  h-10 flex items-center justify-center rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base"
+                        />
+
+                        <div className="flex flex-col text-white rounded">
+                            <button
+                                onClick={(e) => setQuantity(quantity + 1)}
+                                className="border border-green-400 rounded-t text-green-400 w-10 h-5 flex items-center justify-center"
+                            >
+                                <AiFillCaretUp />
+                            </button>
+                            <button
+                                onClick={(e) =>
+                                    setQuantity(Math.max(1, quantity - 1))
+                                }
+                                className="border border-red-400 rounded-b text-red-400 w-10 h-5 flex items-center justify-center"
+                            >
+                                <AiFillCaretDown />
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <FiXCircle
                 onClick={removeCartProduct}

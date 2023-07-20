@@ -27,6 +27,10 @@ const productSchema = new mongoose.Schema({
             url: String,
         },
     ],
+    category: {
+        type: String,
+        default: 'all'
+    },
     createdAt: {
         type: Date,
         default: Date.now,

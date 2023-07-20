@@ -1,8 +1,10 @@
 "use client";
 
+import Categories from "@/components/home/Categories";
+import FeaturedProducts from "@/components/home/FeaturedProducts";
 import FeaturesSeaction from "@/components/home/Features";
 import HeroSection from "@/components/home/Hero";
-import TrustedBrands from "@/components/home/TrustedBrands";
+import SellSection from "@/components/home/SellProducts";
 import axios from "axios";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -19,7 +21,6 @@ const verifyUser = async () => {
 };
 
 export default function Home() {
-
     useEffect(() => {
         async function gett() {
             const isVerified = await verifyUser();
@@ -33,8 +34,10 @@ export default function Home() {
 
     return (
         <>
-            <HeroSection />;
-            <TrustedBrands />
+            <HeroSection />
+            <Categories />
+            <SellSection />
+            <FeaturedProducts />
             <FeaturesSeaction />
         </>
     );

@@ -1,9 +1,9 @@
 import ListProducts from "@/components/products/ListProducts";
 import axios from "axios";
 
-const fetchProducts = async () => {
+const fetchProducts = async (category, limit) => {
     const { data, error } = await axios.get(
-        `${process.env.API_URL}/api/products`
+        `${process.env.API_URL}/api/products?category=${category}&limit=${limit}`
     );
 
     if (error) return [];
@@ -13,8 +13,9 @@ const fetchProducts = async () => {
     return data.products;
 };
 
-const page = async () => {
-    const products = await fetchProducts();
+const ProductsPage = async ({ searchParams }) => {
+    const { category, limit } = searchParams;
+    const products = await fetchProducts(category, limit);
 
     const demoProducts = [
         {
@@ -73,7 +74,14 @@ const page = async () => {
         return <h1>No products found</h1>;
     }
 
-    return <ListProducts products={products} />;
+    return (
+        <>
+            <h2 className="mt-10 text-xl sm:text-2xl md:text-3xl font-semibold tracking-wider text-gray-900">
+                All Products
+            </h2>
+            <ListProducts products={products} />
+        </>
+    );
 };
 
-export default page;
+export default ProductsPage;
