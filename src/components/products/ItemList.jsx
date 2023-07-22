@@ -1,12 +1,39 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 
 const ItemList = ({ product }) => {
-    const addToCart = (e) => {
+    const queryClient = useQueryClient();
+
+    const addToCartMutation = useMutation({
+        mutationKey: ["cart", "add"],
+        mutationFn: async (payload) => {
+            return await axios.post("/api/account/cart", payload);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["account", "cart"]);
+        },
+    });
+
+    const addToCart = async (e) => {
         e.preventDefault();
 
+        addToCartMutation.mutate({
+            id: product?._id,
+            name: product?.name,
+            quantity: 1,
+            price: product?.price,
+        });
+
+        const { isError, error } = addToCartMutation;
+
+        if (isError) {
+            toast.error(error.message);
+            return;
+        }
         toast.success("Added to cart");
     };
 

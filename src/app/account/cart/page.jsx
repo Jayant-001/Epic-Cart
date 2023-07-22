@@ -6,10 +6,6 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const CartPage = () => {
-    // const [dataa, setDataa] = useState(null);
-    // useEffect(() => {
-    //     fetchCart();
-    // }, []);
 
     const cartData = useQuery({
         queryFn: async () => {
@@ -34,16 +30,6 @@ const CartPage = () => {
     //         throw new Error(error.message);
     //     }
     //     console.log(data);
-    // };
-
-    // const fetchCart = async () => {
-    //     const { data, error } = await axios.get("/api/account/cart");
-
-    //     if (error) {
-    //         console.log(error);
-    //         throw new Error(error.message);
-    //     }
-    //     setDataa(data.cartData);
     // };
 
     if (cartData.isLoading) {

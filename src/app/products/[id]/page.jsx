@@ -1,3 +1,4 @@
+import BreadCrumb from "@/components/BreadCrumb";
 import ProductDetails from "@/components/products/ProductDetails";
 import axios from "axios";
 import React from "react";
@@ -20,7 +21,12 @@ const ProductDetailsPage = async ({ params }) => {
 
     const product = await fetchProduct(id);
 
-    return <ProductDetails product={product} />;
+    return (
+        <>
+            <BreadCrumb />
+            <ProductDetails product={product} />
+        </>
+    );
 };
 
 export default ProductDetailsPage;

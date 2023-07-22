@@ -1,31 +1,43 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ProductDetails = ({ product }) => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const defaultImageUrl =
         "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg";
     const imageurl =
         "https://www.whitmorerarebooks.com/pictures/medium/2465.jpg";
 
+    const addToCartMutation = useMutation({
+        mutationKey: ["cart", "add"],
+        mutationFn: async (payload) => {
+            return await axios.post("/api/account/cart", payload);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["account", "cart"]);
+        },
+    });
+
     const addToCart = async (e) => {
         e.preventDefault();
 
-        const { data, error } = await axios.post("/api/account/cart", {
+        addToCartMutation.mutate({
             id: product?._id,
             name: product?.name,
             quantity: 1,
             price: product?.price,
         });
 
-        if (error || !data) throw new Error("Could not add product to cart");
+        const { isError } = addToCartMutation;
+
+        if (isError) throw new Error("Could not add product to cart");
         toast.success(`${product.name} added to cart`);
     };
 

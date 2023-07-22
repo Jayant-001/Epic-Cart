@@ -74,6 +74,8 @@ const ProductsPage = async ({ searchParams }) => {
         return <h1>No products found</h1>;
     }
 
+    // console.log(products)
+
     return (
         <>
             <h2 className="mt-10 text-xl sm:text-2xl md:text-3xl font-semibold tracking-wider text-gray-900">

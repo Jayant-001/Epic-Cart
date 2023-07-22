@@ -17,9 +17,13 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 10,
     },
-    seller: {
+    storeId: {
+        type: ObjectId,
+        default: null,
+    },
+    storeName: {
         type: String,
-        default: "Jayant",
+        default: "Unknown store"
     },
     images: [
         {
