@@ -25,7 +25,7 @@ export async function GET(req) {
                     success: false,
                     user: null,
                 },
-                { status: 440 }
+                { status: 404 }
             );
         }
 

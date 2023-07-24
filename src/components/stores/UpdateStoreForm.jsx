@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-const CreateStoreForm = () => {
+const UpdateStoreForm = () => {
     const router = useRouter();
 
     const [store, setStore] = useState({
@@ -33,11 +33,11 @@ const CreateStoreForm = () => {
         }
     };
     return (
-        <form>
-            <div className="mb-6">
+        <form className="my-5">
+            <div className="mb-2">
                 <label
                     htmlFor="title"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-base font-semibold text-gray-600"
                 >
                     Store title
                 </label>
@@ -54,10 +54,10 @@ const CreateStoreForm = () => {
                     required
                 />
             </div>
-            <div className="mb-6">
+            <div className="mb-2">
                 <label
                     htmlFor="desc"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-base font-semibold text-gray-600 "
                 >
                     About store
                 </label>
@@ -81,10 +81,10 @@ const CreateStoreForm = () => {
                 onClick={handleSubmit}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-                Create
+                Update
             </button>
         </form>
     );
 };
 
-export default CreateStoreForm;
+export default UpdateStoreForm;

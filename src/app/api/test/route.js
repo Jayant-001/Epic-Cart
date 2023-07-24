@@ -1,9 +1,11 @@
+import { connectDB } from "@/config/db";
 import User from "@/models/User";
 import { NextResponse } from "next/server";
 
+connectDB();
 export async function GET() {
     try {
-        await User.deleteMany();
+        // await User.deleteMany();
 
         return NextResponse.json(
             {

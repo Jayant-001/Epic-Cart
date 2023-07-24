@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsCardImage } from "react-icons/bs";
 
-const SellProductForm = () => {
+const AddProductForm = () => {
     const router = useRouter();
     const [product, setProduct] = useState({
         title: "",
@@ -226,4 +226,4 @@ const SellProductForm = () => {
     );
 };
 
-export default SellProductForm;
+export default AddProductForm;
