@@ -1,10 +1,11 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Image from "next/image";
 import React from "react";
 import { FiXCircle } from "react-icons/fi";
 
-const StoreProductsList = () => {
-
+const StoreProductsList = ({ products }) => {
     const demoProducts = [
         {
             _id: "64b8da47f0ef140b2606b692",
@@ -82,10 +83,14 @@ const StoreProductsList = () => {
 
     return (
         <div className="mt-5">
-            <h1 className="text-gray-600 font-bold text-2xl my-2">Store products</h1>
-            {demoProducts.map((product, id) => (
-                <StoreProductItem key={id} product={product} />
-            ))}
+            <h1 className="text-gray-600 font-bold text-2xl my-2">Products</h1>
+            {products.length > 0 ? (
+                products.map((product, id) => (
+                    <StoreProductItem key={id} product={product} />
+                ))
+            ) : (
+                <h1 className="text-center text-lg">No Products listed</h1>
+            )}
         </div>
     );
 };
@@ -94,30 +99,52 @@ const StoreProductItem = ({ product }) => {
     const imageurl =
         "https://www.whitmorerarebooks.com/pictures/medium/2465.jpg";
 
-    const removeCartProduct = (e) => {
+    const editProduct = (e) => {
         e.preventDefault();
     };
 
+    const deleteProduct = (e) => {
+        e.preventDefault();
+    };
+
+    const styles = {
+        buttonAccept:
+            "px-2 py-1 rounded-lg shadow bg-green-300 active:bg-green-400 cursor-pointer",
+        buttonDecline:
+            "px-2 py-1 rounded-lg shadow bg-red-300 active:bg-red-400 cursor-pointer",
+    };
+
     return (
-        <div className="px-5 py-2 flex items-center border-t gap-10 relative">
-            <Image
-                src={imageurl}
-                width={0}
-                alt="product image"
-                height={0}
-                sizes="100vw"
-                style={{ width: "50px", height: "auto" }} // optional
-            />
-            <div className="flex flex-col h-full justify-center">
-                <h1 className="font-medium text-gray-600">{product.name}</h1>
-                <p>
-                    ₹{product.price} | <span>{product.stock}</span> stocks
-                </p>
+        <div className="px-5 py-2 flex items-center justify-between border-t">
+            <div className="flex items-center relative">
+                <Image
+                    src={imageurl}
+                    width={0}
+                    alt="product image"
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: "50px", height: "auto" }} // optional
+                />
+                <div className="flex flex-col h-full justify-center">
+                <h1 className="font-medium text-base sm:text-lg text-gray-600">
+                    {product.name}
+                </h1>
+                    <p>
+                        ₹{product.price} | <span>{product.stock}</span> stocks
+                    </p>
+                </div>
             </div>
-            <FiXCircle
-                onClick={removeCartProduct}
-                className="absolute right-5 text-2xl hover:text-red-600 hover:cursor-pointer top-5"
-            />
+            <div className="space-x-2 text-sm sm:text-base">
+                <button className={styles.buttonAccept} onClick={editProduct}>
+                    Edit
+                </button>
+                <button
+                    className={styles.buttonDecline}
+                    onClick={deleteProduct}
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     );
 };

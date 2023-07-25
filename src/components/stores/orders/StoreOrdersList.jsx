@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { toast } from "react-hot-toast";
 
 const StoreOrdersList = () => {
     const demoOrders = [
@@ -26,9 +28,7 @@ const StoreOrdersList = () => {
 
     return (
         <div className="mt-5">
-            <h1 className="text-gray-600 font-bold text-2xl my-2">
-                Store products
-            </h1>
+            <h1 className="text-gray-600 font-bold text-2xl my-2">Orders</h1>
             {demoOrders.map((order, id) => (
                 <OrderListItem key={id} order={order} />
             ))}
@@ -37,11 +37,46 @@ const StoreOrdersList = () => {
 };
 
 const OrderListItem = ({ order }) => {
+    const onAcceptOrder = (e) => {
+        e.preventDefault();
+
+        toast.success("Order accepted");
+    };
+
+    const onDeclineOrder = (e) => {
+        e.preventDefault();
+
+        toast.error("Order declined");
+    };
+
+    const styles = {
+        buttonAccept:
+            "px-2 py-1 rounded-lg shadow bg-green-300 active:bg-green-400 cursor-pointer",
+        buttonDecline:
+            "px-2 py-1 rounded-lg shadow bg-red-300 active:bg-red-400 cursor-pointer",
+    };
+
     return (
-        <div>
-            <h1>{order.title}</h1>
-            <p>{order.quantity}</p>
-            <p>{order.price}</p>
+        <div className="px-5 py-2 flex items-center justify-between border-t gap-10 relative">
+            <div className="flex flex-col h-full justify-center">
+                <h1 className="font-medium text-base sm:text-lg text-gray-600">
+                    {order.title}
+                </h1>
+                <p className="text-sm">
+                    <span>{order.quantity}</span> stocks | ₹{order.price}
+                </p>
+            </div>
+            <div className="space-x-2 text-sm sm:text-base">
+                <button className={styles.buttonAccept} onClick={onAcceptOrder}>
+                    Accept
+                </button>
+                <button
+                    className={styles.buttonDecline}
+                    onClick={onDeclineOrder}
+                >
+                    Decline
+                </button>
+            </div>
         </div>
     );
 };

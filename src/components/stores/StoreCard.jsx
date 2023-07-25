@@ -1,17 +1,19 @@
+
 import Link from "next/link";
 import React from "react";
 import { FaStoreAlt } from "react-icons/fa";
 
+
 const StoreCard = ({ data }) => {
     return (
-        <div className="w-full max-w-xs py-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full sm:w-[40%] md:w-[33%] lg:w-[30%] py-5 mx-2 mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex flex-col items-center">
-                <FaStoreAlt className="text-white w-12 h-12" />
+                <FaStoreAlt className="text-white w-10 h-10" />
                 <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                     {data.title}
                 </h5>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                    Description
+                    {data.desc}
                 </span>
                 <div className="flex mt-4 space-x-3 md:mt-6">
                     {data.isDemo ? (

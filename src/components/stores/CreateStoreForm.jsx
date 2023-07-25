@@ -1,5 +1,5 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,16 +7,20 @@ import { toast } from "react-hot-toast";
 
 const CreateStoreForm = () => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const [store, setStore] = useState({
         title: "",
-        desc: "",
+        desc: "", 
     });
 
     const createStoreQuery = useMutation({
         mutationKey: ["account", "stores"],
         mutationFn: async (data) => {
             return await axios.post("/api/account/stores", data);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["account", "stores"]);
         },
     });
 

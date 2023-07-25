@@ -41,7 +41,7 @@ const StoreNavbar = () => {
         "flex gap-2 py-3 items-center w-full justify-center md:justify-start bg-gray-100 px-5 rounded-lg shadow";
 
     return (
-        <nav className=" flex h-fit sticky top-24 items-center md:flex-col md:items-start md:gap-5 gap-2 border justify-between px-2 py-2">
+        <nav className="z-8 bg-slate-100 rounded-lg flex h-fit sticky top-24 items-center md:flex-col md:items-start md:gap-5 gap-2 border justify-between px-2 py-2">
             {links.map((link, id) => (
                 <Link
                     key={id}

@@ -4,7 +4,6 @@ import Cart from "@/models/Cart";
 import { NextResponse } from "next/server";
 
 connectDB();
-
 export async function GET(req) {
 
     try {

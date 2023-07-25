@@ -1,18 +1,22 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsCardImage } from "react-icons/bs";
 
-const AddProductForm = ({ storeId }) => {
+const StoreProductAddPage = ({ params }) => {
+    const { storeId } = params;
+    const queryClient = useQueryClient();
+
     const router = useRouter();
     const [product, setProduct] = useState({
-        title: "",
-        desc: "",
+        name: "",
+        description: "",
         price: "",
         stock: "",
+        storeId: storeId,
         category: "other",
         address: "",
         images: [],
@@ -28,18 +32,33 @@ const AddProductForm = ({ storeId }) => {
         "Kids",
     ];
 
-    const addProductQuery = useMutation({
-        mutationKey: ["account", "stores", "add", "products"],
+    const addProductMutation = useMutation({
         mutationFn: async (product) => {
-            return await axios.post(``, product);
+            return await axios.post(`/api/account/stores/${storeId}/products`, product);
         },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["account", "stores", "products"]);
+            setProduct({
+                name: "",
+                description: "",
+                price: "",
+                stock: "",
+                category: "",
+                address: "",
+                images: [],
+            });
+            toast.success("Uploaded");
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
     });
 
     const handleClear = (e) => {
         e.preventDefault();
         setProduct({
-            title: "",
-            desc: "",
+            name: "",
+            description: "",
             price: "",
             stock: "",
             category: "",
@@ -47,16 +66,13 @@ const AddProductForm = ({ storeId }) => {
             images: [],
         });
 
-        toast.error("Upload cancelled");
+        toast.error("Data cleared");
     };
 
-    const handleUpload = (e) => {
+    const handleUpload = async (e) => {
         e.preventDefault();
 
-        console.log(storeId);
-        console.log(product);
-
-        toast.success("Uploaded");
+        addProductMutation.mutate(product);
     };
 
     const handleInputChange = (e) => {
@@ -78,18 +94,18 @@ const AddProductForm = ({ storeId }) => {
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-4">
                             <label
-                                htmlFor="title"
+                                htmlFor="name"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                                Product title
+                                Product name
                             </label>
                             <div className="mt-2">
                                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md">
                                     <input
                                         type="text"
-                                        name="title"
-                                        id="title"
-                                        value={product.title}
+                                        name="name"
+                                        id="name"
+                                        value={product.name}
                                         onChange={handleInputChange}
                                         required
                                         className="block flex-1 border-0 outline-none bg-transparent py-1.5 px-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -101,19 +117,19 @@ const AddProductForm = ({ storeId }) => {
 
                         <div className="col-span-full">
                             <label
-                                htmlFor="desc"
+                                htmlFor="description"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                                desc
+                                description
                             </label>
                             <div className="mt-2">
                                 <textarea
-                                    id="desc"
-                                    name="desc"
+                                    id="description"
+                                    name="description"
                                     rows={3}
-                                    value={product.desc}
+                                    value={product.description}
                                     onChange={handleInputChange}
-                                    placeholder="Product desc"
+                                    placeholder="Product description"
                                     className="block w-full rounded-md outline-none border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -256,11 +272,13 @@ const AddProductForm = ({ storeId }) => {
                     type="submit"
                     className="rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                 >
-                    Upload
+                    {addProductMutation.isLoading ? "Loading..." : "Upload"}
                 </button>
             </div>
         </form>
     );
 };
 
-export default AddProductForm;
+export default StoreProductAddPage;
+
+// AddProductForm

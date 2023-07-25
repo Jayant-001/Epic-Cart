@@ -1,9 +1,8 @@
-import React from 'react'
+import StoreOrdersList from "@/components/stores/orders/StoreOrdersList";
+import React from "react";
 
 const OrdersPage = () => {
-  return (
-    <div>OrdersPage</div>
-  )
-}
+    return <StoreOrdersList />;
+};
 
-export default OrdersPage
+export default OrdersPage;

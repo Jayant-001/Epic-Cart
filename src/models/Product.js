@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            default: "THis is default description",
+            default: "This is default description",
         },
         price: {
             type: Number,
@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
         },
         stock: {
             type: Number,
-            default: 10,
+            default: 0,
         },
         ownerId: {
             type: ObjectId,

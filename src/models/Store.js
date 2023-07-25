@@ -10,13 +10,13 @@ const storeSchema = new Schema(
             type: String,
             required: [true, "Store description is required"],
         },
+        ownerId: {
+            type: ObjectId,
+            required: [true, "Owner Id is required"]
+        },
         products: {
             type: Array,
             default: [],
-        },
-        ownerId: {
-            type: ObjectId,
-            default: null,
         },
         orders: {
             type: Array,
