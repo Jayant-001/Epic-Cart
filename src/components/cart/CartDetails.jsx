@@ -1,3 +1,4 @@
+"use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
@@ -9,16 +10,18 @@ const CartDetails = ({ details }) => {
         mutationFn: async () => {
             return await axios.post("/api/account/checkout");
         },
+        onError: (error) => {
+            toast.error("Error ", error.message);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries(["account", "cart"]);
+            toast.success("Order sent successfully");
         },
     });
 
     const onCheckout = async (e) => {
         e.preventDefault();
-
         checkoutQuery.mutate();
-        toast.success("Order sent successfully");
     };
 
     return (

@@ -2,7 +2,7 @@
 import React from "react";
 import { toast } from "react-hot-toast";
 
-const StoreOrdersList = () => {
+const StoreOrdersList = ({ orders }) => {
     const demoOrders = [
         {
             title: "Mobile 64gb",
@@ -25,13 +25,17 @@ const StoreOrdersList = () => {
             price: 24839,
         },
     ];
-
+    
     return (
         <div className="mt-5">
             <h1 className="text-gray-600 font-bold text-2xl my-2">Orders</h1>
-            {demoOrders.map((order, id) => (
-                <OrderListItem key={id} order={order} />
-            ))}
+            {orders.length > 1 ? (
+                orders.map((order, id) => (
+                    <OrderListItem key={id} order={order} />
+                ))
+            ) : (
+                <h1 className="text-center text-lg">No orders till now</h1>
+            )}
         </div>
     );
 };

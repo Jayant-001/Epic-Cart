@@ -2,7 +2,7 @@ import { connectDB } from "@/config/db";
 import { NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import User from "@/models/User";
-
+import Cart from "@/models/Cart";
 
 connectDB();
 
@@ -30,6 +30,8 @@ export async function POST(req) {
         });
 
         const savedUser = await newUser.save();
+        const cart = new Cart({ userId: savedUser._id });
+        cart.save();
 
         return NextResponse.json(
             {

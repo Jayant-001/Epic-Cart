@@ -51,6 +51,7 @@ const StoreDetailsPage = ({ params }) => {
         storeId,
         title: data.data.store.title,
         desc: data.data.store.desc,
+        orders: data.data.store.orders,
     };
     links.at(-1).title = storeData.title;
 
@@ -62,7 +63,7 @@ const StoreDetailsPage = ({ params }) => {
                 storeId={storeId}
                 products={data.data.store.products}
             />
-            <StoreOrdersList />
+            <StoreOrdersList orders={storeData.orders} />
             <UpdateStoreForm storeData={storeData} />
         </div>
     );

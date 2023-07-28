@@ -34,10 +34,13 @@ export async function POST(req) {
             });
         });
 
-        // truncate products array
+        // delete entries from cart 
         await Cart.findOneAndUpdate(
             { userId: userId },
-            { $pull: { products: {} } },
+            {
+                $pull: { products: {} },
+                $set: { productsCount: 0, totalPrice: 0 },
+            },
             { multi: true }
         );
 

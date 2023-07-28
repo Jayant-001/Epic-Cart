@@ -30,11 +30,6 @@ const StoreNavbar = () => {
             url: "/account/stores",
             icon: <FaStore />,
         },
-        {
-            title: "Orders",
-            url: "/account/orders",
-            icon: <BsFillWalletFill />,
-        },
     ];
 
     const styles =

@@ -12,9 +12,9 @@ const Header = () => {
 
     const navigation = [
         { title: "Products", path: "/products" },
+        { title: "Stores", path: "/stores" },
         { title: "Men", path: "/products?category=men" },
         { title: "Women", path: "/products?category=women" },
-        { title: "Electronics", path: "/products?category=electronics" },
     ];
 
     const keyDownHandler = (event) => {
@@ -54,9 +54,7 @@ const Header = () => {
                                     className="text-gray-600 hover:text-gray-900"
                                 >
                                     <Link
-                                        onClick={() =>
-                                            setMenuState(!menuState)
-                                        }
+                                        onClick={() => setMenuState(!menuState)}
                                         href={item.path}
                                     >
                                         {item.title}

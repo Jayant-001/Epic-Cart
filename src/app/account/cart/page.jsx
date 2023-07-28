@@ -6,12 +6,11 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const CartPage = () => {
-
     const cartData = useQuery({
+        queryKey: ["account", "cart"],
         queryFn: async () => {
             return await axios.get("/api/account/cart");
         },
-        queryKey: ["account", "cart"],
     });
 
     if (cartData.isLoading) {
@@ -33,7 +32,9 @@ const CartPage = () => {
 
     return (
         <>
-            <h1 className="text-3xl font-bold tracking-widest">Cart Products</h1>
+            <h1 className="text-3xl font-bold tracking-widest">
+                Cart Products
+            </h1>
             <div className="flex justify-evenly flex-col lg:flex-row relative gap-5">
                 <CartList products={products} />
                 <CartDetails details={details} />
