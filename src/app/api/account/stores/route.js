@@ -54,16 +54,3 @@ export async function POST(req) {
     }
 }
 
-export async function PATCH(req) {
-    try {
-        const { id, product } = req.json();
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json(
-            {
-                message: error.message,
-            },
-            { status: 500 }
-        );
-    }
-}

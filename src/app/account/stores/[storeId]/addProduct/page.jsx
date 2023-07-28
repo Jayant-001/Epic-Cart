@@ -1,7 +1,6 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsCardImage } from "react-icons/bs";
@@ -10,14 +9,13 @@ const StoreProductAddPage = ({ params }) => {
     const { storeId } = params;
     const queryClient = useQueryClient();
 
-    const router = useRouter();
     const [product, setProduct] = useState({
         name: "",
         description: "",
         price: "",
         stock: "",
         storeId: storeId,
-        category: "other",
+        category: "Others",
         address: "",
         images: [],
     });
@@ -34,7 +32,10 @@ const StoreProductAddPage = ({ params }) => {
 
     const addProductMutation = useMutation({
         mutationFn: async (product) => {
-            return await axios.post(`/api/account/stores/${storeId}/products`, product);
+            return await axios.post(
+                `/api/account/stores/${storeId}/products`,
+                product
+            );
         },
         onSuccess: () => {
             queryClient.invalidateQueries(["account", "stores", "products"]);
@@ -43,7 +44,8 @@ const StoreProductAddPage = ({ params }) => {
                 description: "",
                 price: "",
                 stock: "",
-                category: "",
+                storeId: storeId,
+                category: "Others",
                 address: "",
                 images: [],
             });
@@ -51,7 +53,7 @@ const StoreProductAddPage = ({ params }) => {
         },
         onError: (error) => {
             toast.error(error.message);
-        }
+        },
     });
 
     const handleClear = (e) => {
@@ -61,7 +63,8 @@ const StoreProductAddPage = ({ params }) => {
             description: "",
             price: "",
             stock: "",
-            category: "",
+            storeId: storeId,
+            category: "Others",
             address: "",
             images: [],
         });
@@ -194,6 +197,7 @@ const StoreProductAddPage = ({ params }) => {
                                 }}
                                 name="category"
                                 id="category"
+                                value={product.category}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
                             >
                                 {options.map((option, id) => (

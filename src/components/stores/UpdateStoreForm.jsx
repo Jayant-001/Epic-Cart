@@ -1,33 +1,45 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-const UpdateStoreForm = () => {
-    const router = useRouter();
+const UpdateStoreForm = ({ storeData }) => {
+    const queryClient = useQueryClient();
 
     const [store, setStore] = useState({
-        title: "",
-        desc: "",
+        title: storeData.title,
+        desc: storeData.desc,
     });
 
     const createStoreQuery = useMutation({
-        mutationKey: ["account", "stores"],
         mutationFn: async (data) => {
-            return await axios.post("/api/account/stores", data);
+            return await axios.patch(
+                `/api/account/stores/${storeData.storeId}`,
+                data
+            );
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["account", "stores"]);
+            queryClient.invalidateQueries(["account", "store", "details"])
         },
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const data = await createStoreQuery.mutateAsync(store);
+        if (store.title.length < 3 || store.desc.length < 5) {
+            toast.error("Invalid data");
+            return;
+        }
 
-        if (data.status === 201) {
-            toast.success("Store created");
-            router.back();
+        const data = await createStoreQuery.mutateAsync({
+            title: store.title,
+            desc: store.desc,
+        });
+
+        if (data.status === 200) {
+            toast.success("Store updated");
         } else {
             toast.error("Server is down");
         }

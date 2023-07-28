@@ -46,14 +46,24 @@ const StoreDetailsPage = ({ params }) => {
         return <h1 className={styles}>{error.message}</h1>;
     }
 
+    console.log(data.data.store);
+    const storeData = {
+        storeId,
+        title: data.data.store.title,
+        desc: data.data.store.desc,
+    };
+    links.at(-1).title = storeData.title;
+
     return (
         <div>
-            {/* <p>{JSON.stringify(data?.data)}</p> */}
             <BreadCrumb links={links} />
             <StoreAddProduct id={storeId} />
-            <StoreProductsList products={data.data.store.products} />
+            <StoreProductsList
+                storeId={storeId}
+                products={data.data.store.products}
+            />
             <StoreOrdersList />
-            <UpdateStoreForm />
+            <UpdateStoreForm storeData={storeData} />
         </div>
     );
 };

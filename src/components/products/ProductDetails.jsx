@@ -33,6 +33,7 @@ const ProductDetails = ({ product }) => {
             name: product?.name,
             quantity: 1,
             price: product?.price,
+            storeId: product?.storeId
         });
 
         const { isError } = addToCartMutation;
@@ -52,7 +53,7 @@ const ProductDetails = ({ product }) => {
 
     return (
         <section className="text-gray-700 body-font overflow-hidden bg-white">
-            <div className="container px-5 py-24 mx-auto">
+            <div className="container px-5 py-10 mx-auto">
                 <div className="lg:w-4/5 mx-auto flex flex-wrap">
                     <img
                         alt="ecommerce"
@@ -182,52 +183,6 @@ const ProductDetails = ({ product }) => {
                                 <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
                                 <button className="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
                             </div>
-                            {/* <div className="flex ml-6 items-center">
-                                <span className="mr-3">Quantity</span>
-                                <div className="flex space-x-1">
-                                    <input
-                                        type="number"
-                                        value={cartProduct.quantity}
-                                        onChange={(e) => {
-                                            setCartProduct({
-                                                ...cartProduct,
-                                                quantity: e.target.value,
-                                            });
-                                        }}
-                                        className=" w-16 text-center  h-10 flex items-center justify-center rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base"
-                                    />
-
-                                    <div className="flex flex-col text-white rounded">
-                                        <button
-                                            onClick={(e) =>
-                                                setCartProduct({
-                                                    ...cartProduct,
-                                                    quantity:
-                                                        cartProduct.quantity +
-                                                        1,
-                                                })
-                                            }
-                                            className="border border-green-400 rounded-t text-green-400 w-10 h-5 flex items-center justify-center"
-                                        >
-                                            <AiFillCaretUp />
-                                        </button>
-                                        <button
-                                            onClick={(e) =>
-                                                setCartProduct({
-                                                    ...cartProduct,
-                                                    quantity: Math.max(
-                                                        1,
-                                                        cartProduct.quantity - 1
-                                                    ),
-                                                })
-                                            }
-                                            className="border border-red-400 rounded-b text-red-400 w-10 h-5 flex items-center justify-center"
-                                        >
-                                            <AiFillCaretDown />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div> */}
                         </div>
                         <div className="flex">
                             <span className="title-font font-medium text-2xl text-gray-900">

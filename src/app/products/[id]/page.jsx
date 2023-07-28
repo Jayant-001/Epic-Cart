@@ -17,13 +17,26 @@ const fetchProduct = async (id) => {
 
 const ProductDetailsPage = async ({ params }) => {
     const { id } = await params;
-    // console.log(id);
 
     const product = await fetchProduct(id);
+    const links = [
+        {
+            title: "Home",
+            url: "/",
+        },
+        {
+            title: "All products",
+            url: "/products",
+        },
+        {
+            title: product.name,
+            url: `/products/${product._id}`,
+        },
+    ];
 
     return (
         <>
-            <BreadCrumb />
+            <BreadCrumb links={links} />
             <ProductDetails product={product} />
         </>
     );

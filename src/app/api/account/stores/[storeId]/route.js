@@ -19,18 +19,44 @@ export async function GET(req, { params }) {
     }
 }
 
-export async function POST(req) {
+export async function POST(req, { params }) {
     try {
         const { storeId } = await params;
         const { title, desc } = await req.json();
 
-        const store = await Store.findByIdAndUpdate(storeId, { title, desc });
+        await Store.findByIdAndUpdate(storeId, { title, desc });
 
         return NextResponse.json(
             {
                 message: "Store updated",
             },
             { status: 204 }
+        );
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            {
+                message: error.message,
+            },
+            { status: 500 }
+        );
+    }
+}
+
+export async function PATCH(req, { params }) {
+    try {
+        const { storeId } = await params;
+        const { title, desc } = await req.json();
+
+        await Store.findByIdAndUpdate(storeId, {
+            $set: { title: title, desc: desc },
+        });
+
+        return NextResponse.json(
+            {
+                message: "Store updated",
+            },
+            { status: 200 }
         );
     } catch (error) {
         console.log(error);

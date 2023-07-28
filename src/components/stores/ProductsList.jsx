@@ -1,11 +1,12 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import React from "react";
+import { toast } from "react-hot-toast";
 import { FiXCircle } from "react-icons/fi";
 
-const StoreProductsList = ({ products }) => {
+const StoreProductsList = ({ storeId, products }) => {
     const demoProducts = [
         {
             _id: "64b8da47f0ef140b2606b692",
@@ -86,7 +87,11 @@ const StoreProductsList = ({ products }) => {
             <h1 className="text-gray-600 font-bold text-2xl my-2">Products</h1>
             {products.length > 0 ? (
                 products.map((product, id) => (
-                    <StoreProductItem key={id} product={product} />
+                    <StoreProductItem
+                        key={id}
+                        storeId={storeId}
+                        product={product}
+                    />
                 ))
             ) : (
                 <h1 className="text-center text-lg">No Products listed</h1>
@@ -95,16 +100,26 @@ const StoreProductsList = ({ products }) => {
     );
 };
 
-const StoreProductItem = ({ product }) => {
+const StoreProductItem = ({ storeId, product }) => {
     const imageurl =
         "https://www.whitmorerarebooks.com/pictures/medium/2465.jpg";
+    const queryClient = useQueryClient();
 
-    const editProduct = (e) => {
-        e.preventDefault();
-    };
+    const productDeleteMutation = useMutation({
+        mutationFn: async (id) =>
+            await axios.delete(`/api/account/stores/${storeId}/products`, {
+                data: { id },
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["account", "store", "details"]);
+            toast.success("Item deleted");
+        },
+    });
 
     const deleteProduct = (e) => {
         e.preventDefault();
+
+        productDeleteMutation.mutate(product._id);
     };
 
     const styles = {
@@ -126,18 +141,15 @@ const StoreProductItem = ({ product }) => {
                     style={{ width: "50px", height: "auto" }} // optional
                 />
                 <div className="flex flex-col h-full justify-center">
-                <h1 className="font-medium text-base sm:text-lg text-gray-600">
-                    {product.name}
-                </h1>
+                    <h1 className="font-medium text-base sm:text-lg text-gray-600">
+                        {product.name}
+                    </h1>
                     <p>
                         ₹{product.price} | <span>{product.stock}</span> stocks
                     </p>
                 </div>
             </div>
             <div className="space-x-2 text-sm sm:text-base">
-                <button className={styles.buttonAccept} onClick={editProduct}>
-                    Edit
-                </button>
                 <button
                     className={styles.buttonDecline}
                     onClick={deleteProduct}

@@ -29,3 +29,25 @@ export async function POST(req) {
         );
     }
 }
+
+export async function DELETE(req) {
+    try {
+        const {id} = await req.json();
+
+        await Product.findByIdAndDelete(id);
+        return NextResponse.json(
+            {
+                message: "Product deleted.",
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            {
+                message: error.message,
+            },
+            { status: 500 }
+        );
+    }
+}

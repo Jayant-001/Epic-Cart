@@ -14,24 +14,6 @@ const CartPage = () => {
         queryKey: ["account", "cart"],
     });
 
-    // const product = {
-    //     id: "64ae46e8375ce63650a75390",
-    //     name: "Demo product 1",
-    //     price: 2390,
-    //     quantity: 2,
-    // };
-
-    // const sendData = async () => {
-    //     const { data, error } = await axios.post("/api/account/cart", {
-    //         product,
-    //     });
-    //     if (error) {
-    //         console.log(error);
-    //         throw new Error(error.message);
-    //     }
-    //     console.log(data);
-    // };
-
     if (cartData.isLoading) {
         return (
             <h1 className="text-3xl font-bold tracking-widest">Loading...</h1>

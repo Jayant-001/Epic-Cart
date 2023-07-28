@@ -26,6 +26,7 @@ const ItemList = ({ product }) => {
             name: product?.name,
             quantity: 1,
             price: product?.price,
+            storeId: product?.storeId,
         });
 
         const { isError, error } = addToCartMutation;

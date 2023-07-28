@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 
 connectDB();
 export async function GET(req) {
-
     try {
         const userId = await extractToken(req);
 
@@ -34,7 +33,7 @@ export async function POST(req) {
     try {
         const userId = await extractToken(req);
         const product = await req.json();
-        const { id, name } = product;
+        const { id, name, storeId } = product;
         const price = parseInt(product.price);
         const quantity = parseInt(product.quantity);
 
@@ -59,7 +58,6 @@ export async function POST(req) {
         );
 
         if (existingProduct) {
-
             // return if product already exist
             return NextResponse.json(
                 {
@@ -78,6 +76,7 @@ export async function POST(req) {
             cart.products.push({
                 id,
                 name,
+                storeId,
                 quantity,
                 price,
                 totalPrice: quantity * price,
@@ -109,11 +108,11 @@ export async function POST(req) {
 
 export async function PATCH(req) {
     try {
-    const userId = await extractToken(req);
-    const {productId} = await req.json();
+        const userId = await extractToken(req);
+        const { productId } = await req.json();
 
-    // console.log(userId)
-    //     console.log(productId);
+        // console.log(userId)
+        //     console.log(productId);
 
         // return NextResponse.json(
         //     {

@@ -13,7 +13,7 @@ const AddProductForm = ({ storeId }) => {
         desc: "",
         price: "",
         stock: "",
-        category: "other",
+        category: "Others",
         address: "",
         images: [],
     });
@@ -42,7 +42,7 @@ const AddProductForm = ({ storeId }) => {
             desc: "",
             price: "",
             stock: "",
-            category: "",
+            category: "Others",
             address: "",
             images: [],
         });
@@ -178,6 +178,7 @@ const AddProductForm = ({ storeId }) => {
                                 }}
                                 name="category"
                                 id="category"
+                                value={product.category}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
                             >
                                 {options.map((option, id) => (

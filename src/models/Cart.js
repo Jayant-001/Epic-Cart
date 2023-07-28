@@ -14,6 +14,7 @@ const cartSchema = new Schema(
                 quantity: Number,
                 price: Number,
                 totalPrice: Number,
+                storeId: ObjectId,
             },
         ],
         productsCount: {
