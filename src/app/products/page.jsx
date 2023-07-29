@@ -1,9 +1,10 @@
+import Filters from "@/components/products/Filters";
 import ListProducts from "@/components/products/ListProducts";
 import axios from "axios";
 
-const fetchProducts = async (category, limit) => {
+const fetchProducts = async (category, limit, order) => {
     const { data, error } = await axios.get(
-        `${process.env.API_URL}/api/products?category=${category}&limit=${limit}`
+        `${process.env.API_URL}/api/products?category=${category}&limit=${limit}&order=${order}`
     );
 
     if (error) return [];
@@ -14,8 +15,10 @@ const fetchProducts = async (category, limit) => {
 };
 
 const ProductsPage = async ({ searchParams }) => {
-    const { category, limit } = searchParams;
-    const products = await fetchProducts(category, limit);
+    const { category, limit, order } = searchParams;
+
+    // console.log(category, limit, order);
+    const products = await fetchProducts(category, limit, order);
 
     const demoProducts = [
         {
@@ -70,18 +73,17 @@ const ProductsPage = async ({ searchParams }) => {
         },
     ];
 
-    if (products.length === 0) {
-        return <h1>No products found</h1>;
-    }
-
-    // console.log(products)
-
     return (
         <>
             <h2 className="mt-10 text-xl sm:text-2xl md:text-3xl font-semibold tracking-wider text-gray-900">
                 All Products
             </h2>
-            <ListProducts products={products} />
+            <Filters />
+            {products.length > 0 ? (
+                <ListProducts products={products} />
+            ) : (
+                <h1 className="text-center text-[4vw] my-5">No products found</h1>
+            )}
         </>
     );
 };

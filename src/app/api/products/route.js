@@ -8,21 +8,39 @@ connectDB();
 export async function GET(req) {
     try {
         const { query } = parse(req.url, true);
-        const { category, limit } = query;
+        let { category, limit, order } = query;
+
+        console.log("Server ", category, typeof limit, order);
+        // return NextResponse.json(
+        //     {
+        //         success: true,
+        //         products: [],
+        //     },
+        //     { status: 200 }
+        // );
+
+        if (limit === undefined || limit === "undefined" || limit === "all")
+            limit = 100000000;
+        else limit = parseInt(limit);
+
         let products;
         if (
             category !== null &&
             category !== undefined &&
-            category !== "undefined"
-        )
-            products = await Product.find({ category: category });
-        else products = await Product.find();
+            category !== "undefined" &&
+            category !== "all"
+        ) {
+            products = await Product.find({
+                category: category,
+                price: { $lt: limit },
+            });
+        } else products = await Product.find({ price: { $lt: limit } });
 
-        // console.log(category)
-        if (!isNaN(limit)) {
-            // console.log(limit)
-            products = products.slice(0, limit);
-        }
+        if (order === "older") products.reverse();
+
+        // if (!isNaN(limit)) {
+        //     products = products.slice(0, limit);
+        // }
 
         return NextResponse.json(
             {
