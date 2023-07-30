@@ -10,6 +10,9 @@ export async function POST(req) {
         const userId = await extractToken(req);
         const data = await req.json();
         data.ownerId = userId;
+
+        console.log(data);
+
         let product = await Product(data);
         product = await product.save();
 

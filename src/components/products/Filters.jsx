@@ -107,7 +107,7 @@ const Filters = () => {
                                 pathname +
                                     "?" +
                                     createQueryString(
-                                        "limit",
+                                        "price",
                                         e.target.value.toLowerCase()
                                     )
                             );

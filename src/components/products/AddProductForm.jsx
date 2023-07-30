@@ -164,7 +164,7 @@ const AddProductForm = ({ storeId }) => {
                         <div className="sm:col-span-3">
                             <label
                                 htmlFor="category"
-                                className="block mb-2 text-sm font-medium  "
+                                className="block mb-2 text-sm font-medium"
                             >
                                 Product category
                             </label>

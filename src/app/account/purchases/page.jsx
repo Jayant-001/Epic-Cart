@@ -7,7 +7,7 @@ const PurchasesPage = () => {
     const { data, isError, error, isLoading } = useQuery({
         queryKey: ["account", "purchases"],
         queryFn: async () => {
-            return await axios("/api/account/purchases");
+            return await axios("/api/account/purchases"); 
         },
     });
 

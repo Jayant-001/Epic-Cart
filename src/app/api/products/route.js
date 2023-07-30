@@ -8,9 +8,9 @@ connectDB();
 export async function GET(req) {
     try {
         const { query } = parse(req.url, true);
-        let { category, limit, order } = query;
+        let { category, limit, price, order } = query;
 
-        console.log("Server ", category, typeof limit, order);
+        // console.log("Server ", category, limit, order);
         // return NextResponse.json(
         //     {
         //         success: true,
@@ -19,9 +19,9 @@ export async function GET(req) {
         //     { status: 200 }
         // );
 
-        if (limit === undefined || limit === "undefined" || limit === "all")
-            limit = 100000000;
-        else limit = parseInt(limit);
+        if (price === undefined || price === "undefined" || price === "all")
+            price = 100000000;
+        else price = parseInt(price);
 
         let products;
         if (
@@ -32,15 +32,15 @@ export async function GET(req) {
         ) {
             products = await Product.find({
                 category: category,
-                price: { $lt: limit },
+                price: { $lt: price },
             });
-        } else products = await Product.find({ price: { $lt: limit } });
+        } else products = await Product.find({ price: { $lt: price } });
 
         if (order === "older") products.reverse();
 
-        // if (!isNaN(limit)) {
-        //     products = products.slice(0, limit);
-        // }
+        if (!isNaN(limit)) {
+            products = products.slice(0, limit);
+        }
 
         return NextResponse.json(
             {

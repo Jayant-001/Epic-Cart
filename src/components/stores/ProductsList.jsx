@@ -133,14 +133,14 @@ const StoreProductItem = ({ storeId, product }) => {
         <div className="px-5 py-2 flex items-center justify-between border-t">
             <div className="flex items-center relative">
                 <Image
-                    src={imageurl}
+                    src={product?.images[0] || imageurl}
                     width={0}
                     alt="product image"
                     height={0}
                     sizes="100vw"
                     style={{ width: "50px", height: "auto" }} // optional
                 />
-                <div className="flex flex-col h-full justify-center">
+                <div className="flex ml-2 flex-col h-full justify-center">
                     <h1 className="font-medium text-base sm:text-lg text-gray-600">
                         {product.name}
                     </h1>

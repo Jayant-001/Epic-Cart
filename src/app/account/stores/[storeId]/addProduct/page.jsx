@@ -1,13 +1,14 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsCardImage } from "react-icons/bs";
 
 const StoreProductAddPage = ({ params }) => {
     const { storeId } = params;
     const queryClient = useQueryClient();
+    const mounted = useRef(true);
 
     const [product, setProduct] = useState({
         name: "",
@@ -19,6 +20,9 @@ const StoreProductAddPage = ({ params }) => {
         address: "",
         images: [],
     });
+
+    const [image, setImage] = useState(null);
+    const [images, setImages] = useState([]);
 
     const options = [
         "Others",
@@ -49,12 +53,52 @@ const StoreProductAddPage = ({ params }) => {
                 address: "",
                 images: [],
             });
+            setImages([]);
             toast.success("Uploaded");
         },
         onError: (error) => {
             toast.error(error.message);
         },
     });
+
+    // const uploadImage = (data) => {
+    //     axios
+    //         .post("https://api.cloudinary.com/v1_1/ddarryisr/upload", data)
+    //         .then((res) => {
+    //             // console.log(res.data);
+    //             const images = [];
+    //             images.push(res.data.secure_url);
+    //             setProduct({ ...product, images: images });
+    //             console.log(product);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // };
+
+    const uploadImageMutation = useMutation({
+        mutationFn: async (data) => {
+            return await axios.post(
+                "https://api.cloudinary.com/v1_1/ddarryisr/upload",
+                data
+            );
+        },
+        onSuccess: (res) => {
+            const images = [res.data.secure_url];
+            setProduct({...product, 'images': images});
+        },
+        onError: () => {
+            toast.error("Image upload error");
+        },
+    });
+
+    // useEffect(() => {
+    //     if (images.length > 0) {
+    //         setProduct({ ...product, images: images });
+    //         console.log(product);
+    //         // addProductMutation.mutate(product);
+    //     }
+    // }, [images]);
 
     const handleClear = (e) => {
         e.preventDefault();
@@ -68,6 +112,7 @@ const StoreProductAddPage = ({ params }) => {
             address: "",
             images: [],
         });
+        setImage(null);
 
         toast.error("Data cleared");
     };
@@ -75,11 +120,32 @@ const StoreProductAddPage = ({ params }) => {
     const handleUpload = async (e) => {
         e.preventDefault();
 
+        if(product.images.length < 1) {
+            toast.error("Wait for image upload")
+            return;
+        }
         addProductMutation.mutate(product);
     };
 
     const handleInputChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
+    };
+
+    const handleImageChange = (e) => {
+        e.preventDefault();
+        const image = e.target.files[0];
+
+        if (image.size > 2000000) {
+            toast.error("Maximum image size is 2 MB");
+            return;
+        }
+
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "epic_store_product_images");
+        uploadImageMutation.mutate(data);
+
+        // setImage(image);
     };
 
     return (
@@ -244,11 +310,14 @@ const StoreProductAddPage = ({ params }) => {
                                             htmlFor="file-upload"
                                             className="relative cursor-pointer rounded-md bg-white font-semibold text-gray-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-600 focus-within:ring-offset-2 hover:text-gray-500"
                                         >
-                                            <span>Upload a file</span>
+                                            <span>Select a file</span>
                                             <input
+                                                onChange={handleImageChange}
                                                 id="file-upload"
-                                                name="file-upload"
+                                                name="images"
                                                 type="file"
+                                                required={true}
+                                                accept="image/*"
                                                 className="sr-only"
                                             />
                                         </label>
@@ -276,7 +345,10 @@ const StoreProductAddPage = ({ params }) => {
                     type="submit"
                     className="rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                 >
-                    {addProductMutation.isLoading ? "Loading..." : "Upload"}
+                    {addProductMutation.isLoading ||
+                    uploadImageMutation.isLoading
+                        ? "Loading..."
+                        : "Upload"}
                 </button>
             </div>
         </form>

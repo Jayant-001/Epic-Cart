@@ -1,6 +1,8 @@
+import { connectDB } from "@/config/db";
 import Store from "@/models/Store";
 import { NextResponse } from "next/server";
 
+connectDB();
 export async function GET() {
     try {
         const stores = await Store.find(
