@@ -1,16 +1,35 @@
-import StoreCard from "@/components/stores/StoreCard";
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import StoresList from "@/components/stores/layout/StoresList";
 import Link from "next/link";
 import { FaStoreAlt } from "react-icons/fa";
 
 const StorePage = () => {
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ["account", "stores"],
+        queryFn: async () => {
+            return await axios.get("/api/account/stores");
+        },
+    });
+
+    const styles = "w-full text-center text-lg md:text-2xl my-10";
+
     return (
         <div className="">
             <h1 className="text-xl md:text-3xl font-medium md:font-bold ">
                 Manage your stores
             </h1>
             <CreateStore />
-            <StoresList />
+
+            {isLoading ? (
+                <h1 className={styles}>Loading data...</h1>
+            ) : isError ? (
+                <h1 className={styles}>{error.message}</h1>
+            ) : (
+                // <h1>{JSON.stringify(data?.data?.stores)}</h1>
+                <StoresList stores={data?.data?.stores} />
+            )}
         </div>
     );
 };

@@ -52,16 +52,13 @@ const ItemList = ({ product }) => {
             </div>
             <div className="mt-4 px-2">
                 <h4 className="text-lg font-semibold text-gray-800">
-                    {/* <Link href={`products/${product._id}`}> */}
-                    {/* <span aria-hidden="true" className="absolute inset-0" /> */}
                     {product.name}
-                    {/* </Link> */}
                 </h4>
 
                 <p className=" font-medium text-gray-900">₹{product.price}</p>
                 <div className="flex justify-evenly gap-2 w-full my-2">
                     <Link
-                        href={`products/${product._id}`}
+                        href={`/products/${product._id}`}
                         className="text-sm flex items-center justify-center py-2 px-2 text-white font-medium bg-gray-800 duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-lg w-full"
                     >
                         Preview

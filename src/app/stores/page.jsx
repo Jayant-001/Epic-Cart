@@ -1,4 +1,5 @@
 "use client";
+import StoresList from "@/components/stores/layout/StoresList";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
@@ -71,14 +72,12 @@ const StoresPage = () => {
         setSeller(e);
     };
 
-    console.log(data.data.stores);
-    
     return (
         <div className="flex h-full">
             <div className="w-fit border-r pr-4 max-h-screen overflow-auto">
                 <h2 className="text-xl font-semibold">Top sellers</h2>
                 <div className="space-y-2 mt-5 text-lg">
-                    {sellers.map((item, id) => {
+                    {sellers.map((item) => {
                         return (
                             <Link
                                 href={`/stores?seller=${item.id}`}
@@ -86,11 +85,12 @@ const StoresPage = () => {
                                 className="flex gap-1"
                             >
                                 <input
+                                    id={item.id}
                                     onChange={(e) => selectSeller(item.id)}
                                     type="checkbox"
                                     checked={item.id === seller}
                                 />
-                                <p>{item.title}</p>
+                                <label htmlFor={item.id}>{item.title}</label>
                             </Link>
                         );
                     })}
@@ -98,6 +98,7 @@ const StoresPage = () => {
             </div>
             <div className="flex-grow pl-4">
                 <h2 className="text-xl font-semibold">All Stores</h2>
+                <StoresList stores={data.data.stores} />
             </div>
         </div>
     );
