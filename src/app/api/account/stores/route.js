@@ -32,7 +32,7 @@ export async function POST(req) {
         const userId = await extractToken(req);
         const { title, desc } = await req.json();
 
-        console.log(title, desc, userId);
+        // console.log(title, desc, userId);
 
         const store = await Store({ title, desc, ownerId: userId });
         store.save();

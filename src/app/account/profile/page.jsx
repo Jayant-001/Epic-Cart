@@ -45,7 +45,7 @@ const ProfilePage = () => {
 
     if (isError) return <h1 className="text-center">{error.message}</h1>;
 
-    console.log(data.data.user);
+    // console.log(data.data.user);
 
     return (
         <div className="space-y-5 p-5">

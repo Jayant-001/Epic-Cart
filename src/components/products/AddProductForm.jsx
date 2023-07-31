@@ -53,8 +53,8 @@ const AddProductForm = ({ storeId }) => {
     const handleUpload = (e) => {
         e.preventDefault();
 
-        console.log(storeId);
-        console.log(product);
+        // console.log(storeId);
+        // console.log(product);
 
         toast.success("Uploaded");
     };

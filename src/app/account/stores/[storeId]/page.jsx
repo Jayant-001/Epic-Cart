@@ -46,7 +46,7 @@ const StoreDetailsPage = ({ params }) => {
         return <h1 className={styles}>{error.message}</h1>;
     }
 
-    console.log(data.data.store);
+    // console.log(data.data.store);
     const storeData = {
         storeId,
         title: data.data.store.title,

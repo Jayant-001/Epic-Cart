@@ -38,17 +38,26 @@ const StoreDetailsPage = ({ params }) => {
     return (
         <div>
             <div className="">
-                <h1 className="text-3xl font-bold">{storeDetails.name}</h1>
-                <p className="text-lg">{storeDetails.desc}</p>
+                <h1 className="text-3xl ">
+                    Welcome to{":= "}
+                    <span className="font-bold">{storeDetails.name}</span>
+                </h1>
+                <p className="text-lg">
+                    About us:={" "}
+                    <span className="font-medium">{storeDetails.desc}</span>
+                </p>
                 <hr />
                 <p className="text-lg">
-                    Managed by{" "}
+                    Managed by:={" "}
                     <span className="font-semibold">
                         {storeDetails.ownerName}
                     </span>
                 </p>
                 <p>
-                    Contact Email <span className="italic font-semibold">{storeDetails.ownerEmail}</span>
+                    Contact Email:={" "}
+                    <span className="italic font-semibold">
+                        {storeDetails.ownerEmail}
+                    </span>
                 </p>
             </div>
             <hr />

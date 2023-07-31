@@ -51,7 +51,7 @@ const ProductDetails = ({ product }) => {
         return <h1>Product not found</h1>;
     }
 
-    console.log(product)
+    // console.log(product)
 
     return (
         <section className="text-gray-700 body-font overflow-hidden bg-white">
