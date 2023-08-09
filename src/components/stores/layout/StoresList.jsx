@@ -1,9 +1,6 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { FaStoreAlt } from "react-icons/fa";
 import Link from "next/link";
-// import StoreCard from "../StoreCard";
 
 const StoresList = ({stores}) => {
     const demoStores = [
@@ -29,7 +26,7 @@ const StoresList = ({stores}) => {
         },
     ];
 
-    
+
     return (
         <div>
             <div className="flex flex-wrap my-5">
